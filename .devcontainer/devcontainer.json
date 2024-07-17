@@ -16,12 +16,5 @@
 			"terragrunt": "latest"
 		},
 		"ghcr.io/dhoeric/features/terraformer:1": {}
-	},
-
-	// Import GitHub CodeSpace Secrets to Local Environment
-	"remoteEnv": {
-		"AZURE_CLIENT_ID": "${localEnv:CLIENTID}",
-		"AZURE_TENANT_ID": "${localEnv:TENANTID}",
-		"AZURE_CLIENT_SECRET": "${localEnv:CLIENTSECRET}"
 	}
 }
