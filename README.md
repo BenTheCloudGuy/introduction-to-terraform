@@ -23,6 +23,6 @@
     
     
 ## Getting Started
-* Clone this repo to your own GitHub Account 
+* Fork this repo to your own GitHub Account 
 * Execute DevContainer
 * A pre-completed set of demos are located in Demos directory that we will be working through. 
