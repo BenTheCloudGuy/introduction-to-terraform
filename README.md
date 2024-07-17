@@ -1,5 +1,5 @@
 # Introduction 
-* This repo contains the labs for 'Getting Started with Terraform on Azure'. 
+* This repo contains the labs for 'Introduction-to-Terraform'. 
 * It is targetted at audience who are new to Terraform and Infrastrcuture-as-Code (though, prior ARM experience would be beneficial as well)
 * We'll be focusing more on core constructs of Terraform that are required to write well-structured and maintainable code.
 * These labs will leverage the existing devcontainer for your working environment.
