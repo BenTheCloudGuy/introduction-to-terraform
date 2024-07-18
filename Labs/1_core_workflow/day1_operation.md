@@ -7,15 +7,14 @@
 * Plan 
 * Apply
 
-
 #### Setup
 
 > Start at root of repo /workspaces/introduction-to-terraform/
 
 ```bash
-# get things setup
-mkdir working
-cd working
+# Setup our contoso working directory
+mkdir contoso
+cd contoso
 touch main.tf
 ```
 
@@ -24,6 +23,11 @@ touch main.tf
 ## Day 1 operation (Create)
 
 > NOTE: For the following commands you'll need to be authenticated to Azure and connected to the subscription you want to deploy to. HINT: Use `az login --use-device-code` and `az account set --subscription {YOURSUBSCRIPTIONID}`
+
+```bash
+az login --use-device-code
+To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code F2K7ZDN2U to authenticate.
+```
 
 **1. Write**
 
@@ -51,16 +55,15 @@ provider "azurerm" {
 resource "azurerm_resource_group" "contoso_rg" {
     name = "contoso_rg"
     location = "WestUS 3"
+}
 ```
 
 * Take a quick look at above code and understand what it does.
-
 * Save `main.tf` (`ctrl + s` should work on cloud shell)
 
 ---
 
 **2. Init**
-
 * From terminal, (shortcut `ctrl + '` on cloud shell or vs code)
 
 ```bash
@@ -89,13 +92,13 @@ Take a look at what's been created
 # plan. Below command will generate an execution plan.
 # Take a few minutes to go through the terminal output and see what changes will be applied
 
-terraform plan -out main.tfplan
+terraform plan
 ```  
 
 You should see something like below
     
 ```bash
-▶ terraform plan -out main.tfplan           
+▶ terraform plan         
 
 Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
   + create
@@ -118,7 +121,7 @@ Plan: 1 to add, 0 to change, 0 to destroy.
 
 ```bash
 # apply
-terraform apply main.tfplan
+terraform apply
 ```
 
 > When prompted to enter a value, type **`yes`** to approve
@@ -173,36 +176,3 @@ terraform show terraform.tfstate
 
 > **Important Note**: 
 Besides information about terrafform-managed-resources, `tfstate` will often contain sensitive information and therefore must be kept be very secure. You will see that it's in `.gitignore` to make sure it's not accidentally checked into version control. We'll cover more on State Management later.
-
----
-
-**6. Version control your code** 
-
-* Add `main.tf` and `.terraform.hcl.lock` to git
-
-* Below will only include `main.tf` because all other items such as `terraform.tfstate`, `.terraform` are in `.gitgnore`. 
-
-    ```bash
-        # Make sure you're in right folder
-        cd /workspaces/introduction-to-terraform/working
-        
-        # add
-        git add .
-        # Commit
-        git commit -m "created resource group"
-
-        # or 
-        # just one line
-        git commit -am "created resource group"
-    ```
-
-* You are welcome to push your changes to your own github remote if you prefer. 
-* If you're new to git, and unsure about these steps. Feel free to skip for now, and we can cover these tomorrow when discussing Terraform and DevOps.
-
----
-
-
-
-
-
-

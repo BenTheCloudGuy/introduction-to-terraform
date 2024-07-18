@@ -7,10 +7,8 @@
 Run a plan to see what will be destroyed.
 
 ```bash
-# make sure you are running this from the contoso folder
+# make sure you are running this from the working folder
 terraform plan -destroy
-
-
 ```
 
 **destroy**
@@ -29,10 +27,6 @@ terraform apply -destroy
 You should see a terminal output stating what will be destroyed.
 
 When prompted, type `yes` to approve. This operation may take some time, and terraform will provide status updates every 10 seconds or so.
-
-_Example Screenshot_:
-
-![destroy_example](../assets/destroy_example.png)
 
 
 **Verify**
@@ -73,5 +67,3 @@ Just make sure to clean up the infrastructure prior to next lab.
 * https://www.terraform.io/docs/commands/apply.html
 * https://www.terraform.io/docs/commands/show.html
 * https://www.terraform.io/docs/commands/destroy.html
-
-----

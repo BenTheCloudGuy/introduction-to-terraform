@@ -20,10 +20,25 @@ tags = {
 It should look something like below
 
 ``` terraform
+# Specifiy the provider and version
+terraform {
+    required_providers {
+        azurerm = {
+            source  = "hashicorp/azurerm"
+            version = "~>3.112.0"
+        }
+    }
+}
+
+# Configure the Microsoft Azure Provider
+provider "azurerm" {
+    features {}
+}
+
+# Create the very first resource
 resource "azurerm_resource_group" "contoso_rg" {
     name = "contoso_rg"
-    location = "UK South"
-
+    location = "WestUS 3"
     tags = {
         "cost_center" = "contoso research"
     } 
@@ -97,27 +112,3 @@ Take a quick look at the state file as well.
 ```bash
 terraform show terraform.tfstate
 ```
----
-
-#### Version control your code (as done before, feel free to give your own commit message)
-
-* Add `main.tf` to git
-
-    ```bash
-        # Make sure you're in right folder
-        cd ~/clouddrive/tfw/contoso
-        
-        git add .
-    ```
-
-* Above should only include `main.tf` 
-
-* Commit your changes
-
-```bash
-git commit -m "Added tags to resource group"
-```
-
-* _You are welcome to push your changes to your own remote if you prefer._
-
----
