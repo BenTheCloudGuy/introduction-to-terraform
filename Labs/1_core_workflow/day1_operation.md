@@ -3,26 +3,27 @@
 ## Terraform Core Workflow
 
 * Write
+* Init
 * Plan 
 * Apply
 
 
 #### Setup
 
-> Make sure you are in the correct folder
+> Start at root of repo /workspaces/introduction-to-terraform/
 
 ```bash
-# if you are using azure shell
-cd ~/clouddrive/tfw/contoso
-
-# Navigate accordingly if you are using your own dev environment
+# get things setup
+mkdir working
+cd working
+touch main.tf
 ```
 
 ---
 
 ## Day 1 operation (Create)
 
-> NOTE: For the following commands you'll need to be authenticated to Azure and connected to the subscription you want to deploy to. HINT: Use `az login` and `az account set --subscription mysubscription`
+> NOTE: For the following commands you'll need to be authenticated to Azure and connected to the subscription you want to deploy to. HINT: Use `az login --use-device-code` and `az account set --subscription {YOURSUBSCRIPTIONID}`
 
 **1. Write**
 
@@ -36,7 +37,7 @@ terraform {
     required_providers {
         azurerm = {
             source  = "hashicorp/azurerm"
-            version = "~>3.34.0"
+            version = "~>3.112.0"
         }
     }
 }
@@ -49,8 +50,7 @@ provider "azurerm" {
 # Create the very first resource
 resource "azurerm_resource_group" "contoso_rg" {
     name = "contoso_rg"
-    location = "UK South"
-}
+    location = "WestUS 3"
 ```
 
 * Take a quick look at above code and understand what it does.
@@ -82,11 +82,6 @@ Take a look at what's been created
 
 2. `.terraform` directory - Contains provider itself that got installed based on the version specified in `main.tf`. 
 
-    ```bash
-    ls -R ./.terraform/providers/*/   
-
-    # Above should display something like "terraform-provider-azurerm_v2.x.0_x5"
-    ```
 ---
 **3. Plan**
 
@@ -94,16 +89,15 @@ Take a look at what's been created
 # plan. Below command will generate an execution plan.
 # Take a few minutes to go through the terminal output and see what changes will be applied
 
-terraform plan
+terraform plan -out main.tfplan
 ```  
 
 You should see something like below
     
 ```bash
-▶ terraform plan           
+▶ terraform plan -out main.tfplan           
 
-An execution plan has been generated and is shown below.
-Resource actions are indicated with the following symbols:
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
   + create
 
 Terraform will perform the following actions:
@@ -111,7 +105,7 @@ Terraform will perform the following actions:
   # azurerm_resource_group.contoso_rg will be created
   + resource "azurerm_resource_group" "contoso_rg" {
       + id       = (known after apply)
-      + location = "uksouth"
+      + location = "westus3"
       + name     = "contoso_rg"
     }
 
@@ -124,7 +118,7 @@ Plan: 1 to add, 0 to change, 0 to destroy.
 
 ```bash
 # apply
-terraform apply
+terraform apply main.tfplan
 ```
 
 > When prompted to enter a value, type **`yes`** to approve
@@ -149,11 +143,20 @@ Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
 Verify that the resource has been created, either via `Azure Portal` or using `az cli` and `jq` on `cloudshell`
 
 ```bash
-# On CloudShell,
-az group list | jq '.[].name | select(contains("contoso"))'
-
-# or
 az group list | jq '.[] | select(.name == "contoso_rg")'
+
+## You should see something similiar to the below.
+{
+  "id": "/subscriptions/.../resourceGroups/contoso_rg",
+  "location": "westus3",
+  "managedBy": null,
+  "name": "contoso_rg",
+  "properties": {
+    "provisioningState": "Succeeded"
+  },
+  "tags": {},
+  "type": "Microsoft.Resources/resourceGroups"
+}
 ```
 
 *  Take a few minutes to understand what `terraform` generated during `apply`
@@ -181,7 +184,7 @@ Besides information about terrafform-managed-resources, `tfstate` will often con
 
     ```bash
         # Make sure you're in right folder
-        cd ~/clouddrive/tfw/contoso
+        cd /workspaces/introduction-to-terraform/working
         
         # add
         git add .
@@ -194,14 +197,7 @@ Besides information about terrafform-managed-resources, `tfstate` will often con
     ```
 
 * You are welcome to push your changes to your own github remote if you prefer. 
-
-    * For this, You'll have to setup an ssh key using `ssh-keygen` from your cloud shell and add the public key to your github account in order to be able push the repo to your origin. 
-
-    * You'll also have up your `remote` by doing a `git remote add <your_remote_origin_name(e.g: upstream)> <your_remote_url>
-    
-    * See: https://help.github.com/en/github/using-git/adding-a-remote
-
-    * If you're new to git, and unsure about these steps. Feel free to skip for now, and we can cover these tomorrow when discussing Terraform and DevOps.
+* If you're new to git, and unsure about these steps. Feel free to skip for now, and we can cover these tomorrow when discussing Terraform and DevOps.
 
 ---
 
