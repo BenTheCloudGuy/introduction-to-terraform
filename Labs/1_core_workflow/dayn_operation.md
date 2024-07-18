@@ -74,22 +74,4 @@ Just make sure to clean up the infrastructure prior to next lab.
 * https://www.terraform.io/docs/commands/show.html
 * https://www.terraform.io/docs/commands/destroy.html
 
----
-
-[**Optional / Bonus task**]
-
-Take a look at **`graph`** command. Terraform builds a dependency graph from the Terraform configurations, and walks this graph to generate plans, refresh state, and more
-
-See: 
-* https://www.terraform.io/docs/commands/graph.html
-* https://www.terraform.io/docs/internals/graph.html
-
-> Note: To see the graph in svg format, `graphviz` needs to be installed. This will not work in cloud shell as there isn't sudo access, but should work on vs code online. (or local environments)
-
-> http://www.graphviz.org/download/
-
-For this lab, the resource graph would look something like below.
-
-![resource_graph](../assets/graph_example.png)
-
 ----
